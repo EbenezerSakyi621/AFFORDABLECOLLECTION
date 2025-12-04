@@ -177,6 +177,30 @@ footer a:hover {
     color: #f0f0f0; /* Slightly lighter color on hover */
 }
 
+       .banner-container {
+    width: 100vw; /* Ensures the container spans full width */
+    margin: 0;   /* Removes any default margin */
+    padding: 0;
+    overflow: hidden; 
+    margin-top: 10px;/* Clears any issues with floating elements */
+}
+
+/* Image Styling */
+.hero-banner-image {
+    /* Critical for a full-width banner */
+    width: 100%; 
+    height: auto; /* Ensures the image aspect ratio is maintained */
+
+    /* The following is often used to ensure the image scales nicely 
+       without stretching if its original dimensions aren't perfect */
+    display: block; 
+    max-height: 45vh;/* Removes a small gap sometimes found below images */
+    object-fit: fill; /* CROPS the image to ensure it covers the container, 
+                          without distorting it, if you set a fixed height */
+    
+    /* Example: Set a specific height */
+    /* max-height: 400px; */ 
+}
         /* ======================================= */
         /* --- MEDIA QUERIES for Responsive Grids --- */
         /* ======================================= */
@@ -265,6 +289,12 @@ footer a:hover {
         <p>Quality Style, Budget Price.</p>
     </header>
 
+<div class="banner-container">
+        <img src="new.jpg" 
+             alt="A descriptive title of the banner image content" 
+             class="hero-banner-image">
+    </div>
+    
     <div class="container">
         <h2>Our Current Collection</h2>
         <div class="product-grid">
@@ -464,6 +494,7 @@ footer a:hover {
     </script>
 </body>
 </html>
+
 
 
 

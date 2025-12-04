@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affordable Collection</title>
+    <style>
+        /* --- Basic Reset and Typography --- */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        /* --- Main Content Layout --- */
+        .container {
+            max-width: 1440px; /* Increased max width to support 5 columns */
+            margin: 40px auto;
+            padding: 0 20px;
+            flex-grow: 1; 
+        }
+
+        /* Product Grid Base - For extra large screens (>1400px) */
+        .product-grid {
+            display: grid;
+            /* 5 products per row for extra large screens */
+            grid-template-columns: repeat(5, 1fr); 
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 250px; /* Reduced image height to accommodate 5 per row */
+            object-fit: cover;
+            display: block;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-info h3 {
+            margin-top: 0;
+            font-size: 1.2em;
+            color: #2c3e50;
+        }
+
+        .product-info p {
+            font-size: 1.1em;
+            color: #e74c3c;
+            font-weight: bold;
+            margin: 10px 0 15px 0;
+        }
+
+        .order-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+        }
+
+        .order-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        /* --- Modal and Form Styling --- (Unchanged) */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
+        .modal-content { background-color: #fff; margin: 5% auto; padding: 30px; border-radius: 10px; width: 90%; max-width: 600px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); position: relative; }
+        .close-btn { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close-btn:hover, .close-btn:focus { color: #e74c3c; text-decoration: none; }
+        .order-form-content label { display: block; margin-top: 15px; margin-bottom: 5px; font-weight: bold; }
+        .order-form-content input[type="text"], .order-form-content input[type="email"], .order-form-content textarea { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .order-form-content textarea { resize: vertical; }
+        .order-form-content button[type="submit"] { background-color: #2ecc71; padding: 12px 20px; font-size: 1.1em; transition: background-color 0.3s; border: none; color: white; border-radius: 5px; cursor: pointer; }
+        .order-form-content button[type="submit"]:hover { background-color: #27ae60; }
+        
+        /* --- Footer Styling --- (Unchanged) */
+
+
+footer { background-color: #2c3e50; color: white; text-align: center; padding: 30px 0; margin-top: 50px; }
+        footer h4 { margin-top: 0; font-size: 1.3em; margin-bottom: 10px; }
+        footer p { margin: 5px 0; }
+        footer a { color: #e74c3c; text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        body {
+    /* Ensures the body takes up the full height of the viewport */
+    min-height: 100vh;
+    /* Arranges children (header, container, footer) vertically */
+    display: flex;
+    flex-direction: column;
+    /* Other body styles can go here (font, background, margins) */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+/* --- Container Style (needed to push footer down) --- */
+.container {
+    /* This element must grow to push the footer down */
+    flex-grow: 1; 
+    /* The rest of the container styles */
+    max-width: 1440px; 
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+
+/* --- FOOTER STYLES --- */
+footer {
+    background-color: #2c3e50; /* Dark blue background */
+    color: white; /* White text */
+    text-align: center; /* Center the text */
+    padding: 30px 0; /* Vertical padding */
+    margin-top: 50px; /* Space between content and footer */
+    width: 100%; /* Ensure it spans the full width */
+}
+
+footer h4 {
+    margin-top: 0; /* Remove top margin */
+    font-size: 1.3em; /* Slightly larger heading text */
+    margin-bottom: 10px;
+}
+
+footer p {
+    margin: 5px 0; /* Small vertical spacing for paragraphs */
+}
+
+footer a {
+    color: #e74c3c; /* A contrasting red color for links, matching the Order Now buttons */
+    text-decoration: none; /* Remove underline by default */
+    transition: color 0.3s; /* Smooth color transition */
+}
+
+footer a:hover {
+    text-decoration: underline; /* Add underline on hover */
+    color: #f0f0f0; /* Slightly lighter color on hover */
+}
+
+        /* ======================================= */
+        /* --- MEDIA QUERIES for Responsive Grids --- */
+        /* ======================================= */
+
+        /* Large Screens (Laptops, 1000px+) - 4 per row */
+        @media (max-width: 1400px) {
+            .product-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        /* Medium Screens (Tablets, 768px+) - 3 per row */
+        @media (max-width: 1000px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Small Screens (Large Phones, 480px+) - 2 per row */
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Extra Small Screens (Classic Mobile, <480px) - 1 per row AND Color Change */
+        @media (max-width: 480px) {
+            .product-grid {
+                grid-template-columns: 1fr; /* Stacks to 1 per row */
+                gap: 15px;
+            }
+
+            /* APPLY COLOR CHANGE: White background to Purple */
+            .product-card {
+                background: #9b59b6; /* Purple color */
+                color: #ffffff; /* Text color change for readability */
+            }
+
+            .product-card .product-info h3,
+            .product-card .product-info p {
+                color: #ffffff; /* Ensure name and price text is white */
+            }
+
+            .product-card .order-btn {
+                background-color: #ffffff; /* Change button background for contrast */
+                color: #9b59b6; /* Change button text to purple */
+            }
+            
+            .container {
+                padding: 0 10px; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Affordable Collection</h1>
+        <p>Quality Style, Budget Price.</p>
+    </header>
+
+    <div class="container">
+        <h2>Our Current Collection</h2>
+        <div class="product-grid">
+
+            <!-- Product Card 1 -->
+            <div class="product-card">
+                <img src="The Classic Tee.jpeg" alt="Classic Tee Image">
+                <div class="product-info">
+                    <h3>The Classic Tee</h3>
+                    <p>GH₵ 45</p>
+                    <button class="order-btn" data-product-name="The Classic Tee">Order Now</button>
+                    <p style="font-size: 0.9em;">Available in S, M, L, XL.</p>
+                </div>
+            </div>
+
+            <!-- Product Card 2 -->
+            <div class="product-card">
+                <img src="thrift t shirt.jpeg" alt="thrift t shirt Image">
+                <div class="product-info">
+                    <h3>Thrift T Shirt</h3>
+                    <p>GH₵ 38</p>
+                    <button class="order-btn" data-product-name="Thrift T Shirt">Order Now</button>
+                    <p style="font-size: 0.9em;">Sizes S–XXL.</p>
+                </div>
+            </div>
+
+            <!-- Product Card 3 -->
+            <div class="product-card">
+                <img src="side pocket.jpeg" alt="Comfort Joggers Image">
+                <div class="product-info">
+                    <h3>Side Pocket Trousers</h3>
+                    <p>GH₵ 75</p>
+                    <button class="order-btn" data-product-name="Side Pocket Trousers">Order Now</button>
+                    <p style="font-size: 0.9em;">Sizes 38,42,46</p>
+                </div>
+            </div>
+            
+            <!-- Product Card 4 (New) -->
+            <div class="product-card">
+
+
+<img src="NIKE AIRFORCE.jpeg" alt="Stylish Hoodie Image">
+                <div class="product-info">
+                    <h3>White Nike Airforce</h3>
+                    <p>GH₵ 350</p>
+                    <button class="order-btn" data-product-name="White Nike Airforce">Order Now</button>
+                    <p style="font-size: 0.9em;">Sizes 38-47</p>
+                </div>
+            </div>
+            
+            <!-- Product Card 5 (New) -->
+            <div class="product-card">
+                <img src="menst.jpeg" alt="Accessory Image">
+                <div class="product-info">
+                    <h3>Mens T Shirt</h3>
+                    <p>GH₵ 40</p>
+                    <button class="order-btn" data-product-name="Mens T Shirt">Order Now</button>
+                    <p style="font-size: 0.9em;"></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- The Modal (Order Form) -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Order Inquiry Form</h2>
+            <p>Please fill out the form below to request your order. We will contact you shortly to confirm details and payment.</p>
+
+            <form class="order-form-content" action="https://formspree.io/f/xrbnkvay" method="POST">
+                
+                <input type="hidden" id="selected-product" name="selected_product_name">
+
+                <label for="full_name">Full Name:*</label>
+                <input type="text" id="full_name" name="full_name" required>
+
+                <label for="email">Email Address:*</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="phone">Phone Number (WhatsApp):</label>
+                <input type="text" id="phone" name="phone" required>
+                  <!-- NEW REGION SELECTION FIELD -->
+                  <label for="region">Select a Region (Required):*</label>
+                  <select id="region" name="region" required>
+                      <option value="" disabled selected>-- Select Your Region --</option>
+                      <option value="Ahafo Region">Ahafo Region</option>
+                      <option value="Ashanti Region">Ashanti Region</option>
+                      <option value="Bono Region">Bono Region</option>
+                      <option value="Bono East Region">Bono East Region</option>
+                      <option value="Central Region">Central Region</option>
+                      <option value="Eastern Region">Eastern Region</option>
+                      <option value="Greater Accra Region">Greater Accra Region</option>
+                      <option value="North East Region">North East Region</option>
+                      <option value="Northern Region">Northern Region</option>
+                      <option value="Oti Region">Oti Region</option>
+                      <option value="Savannah Region">Savannah Region</option>
+                      <option value="Upper East Region">Upper East Region</option>
+                      <option value="Upper West Region">Upper West Region</option>
+                      <option value="Volta Region">Volta Region</option>
+                      <option value="Western Region">Oti Region</option>
+                      <option value="Western North Region">Western North Region</option>
+                  </select>
+                <label for="location">City:*</label>
+                <textarea id="location" name="location" rows="3" required
+                    placeholder="Street Address, City, State/Province, Zip/Postal Code, Country"></textarea>
+
+                <label for="product_details">Product Details (Size, Color, Quantity) for <span id="product-name-display" style="color: #e74c3c;">Product Selected</span>:*</label>
+                <textarea id="product_details" name="product_details" rows="4" required
+                    placeholder="Example: Size Large, Color Black, Quantity 2. Be specific."></textarea>
+
+
+
+                <label for="notes">Additional Notes:</label>
+                <textarea id="notes" name="notes" rows="3" placeholder="Is this a gift? Special delivery instructions?"></textarea>
+
+                <button type="submit">Submit Order Request</button>
+            </form>
+            <p id="success-message" style="color: green; font-weight: bold; margin-top: 15px; display: none;">Thank you! Your order request has been submitted. We will be in touch soon.</p>
+        </div>
+    </div>
+
+    <footer>
+        <h4>Contact Affordable Collection</h4>
+        <p>For order inquiries and support, contact us:</p>
+        <p>Email: <a href="mailto:support@affordablecollection.com">support@affordablecollection.com</a></p>
+        <p>Phone: <a href="tel:+233542862099">0542862099</a></p>
+        <p>&copy; 2025 Affordable Collection. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        const modal = document.getElementById('orderModal');
+        const btns = document.querySelectorAll('.order-btn');
+        const closeSpan = document.getElementsByClassName('close-btn')[0]; // Renamed for clarity
+        const selectedProductInput = document.getElementById('selected-product');
+        const productNameDisplay = document.getElementById('product-name-display');
+
+        // --- CORE FUNCTION: OPEN the modal and pre-populate product name ---
+        btns.forEach(btn => {
+            btn.onclick = function() {
+                const productName = this.getAttribute("data-product-name");
+                
+                // 1. Set the hidden input field and display name
+                selectedProductInput.value = productName;
+                productNameDisplay.textContent = productName;
+
+                // 2. Show the modal
+                modal.style.display = 'block';
+                
+                // Ensure the form itself is visible if using the complex submission script
+                // We'll leave the success message hidden for now.
+                const form = document.querySelector('.order-form-content');
+                if (form) {
+                    form.style.display = 'block';
+                    form.reset();
+                }
+                const successMessage = document.getElementById('success-message');
+                if (successMessage) {
+                    successMessage.style.display = 'none';
+                }
+            }
+        });
+
+        // --- Function to CLOSE the modal (by clicking the 'x') ---
+        closeSpan.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        // --- Function to CLOSE the modal (by clicking outside the modal) ---
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        // Final note: The form submission logic is handled by the browser 
+        // because we removed the complex JavaScript listener in the previous step 
+        // to simplify Formspree integration. Submitting now will take the user 
+        // to the Formspree "Thank You" page.
+
+    </script>
+</body>
+</html>
